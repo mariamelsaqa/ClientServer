@@ -1,24 +1,36 @@
 use std::net::UdpSocket;
-
+use std::{thread, time::Duration};
 fn main() {
+    let mut destination_add1 = "localhost:8083";
+    let mut destination_add2 = "localhost:8084";
+    let mut destination_add3 = "localhost:8085";
+    let mut current_address = destination_add3;
+    let socket = UdpSocket::bind("localhost:8081").expect("Server Could not bind socket");
+
+     // create a buffer
+     let mut buf = [0; 19];
+     // read data from socket
     loop
     {
-        let socket_client = UdpSocket::bind("localhost:8082").expect("couldn't bind to address");
-        let socket_server = UdpSocket::bind("localhost:8083").expect("couldn't bind to address");
-        let mut buf1 = [0; 17];
-
-        // receive from client 
-        let (amt, src) = socket_client.recv_from(&mut buf1).expect("error reading");
-        println!("Agent Received from client");
-
-        
-        //forward request to server
-        socket_server.send_to(&buf1[..amt],"localhost:8080").expect("error sending");
-        let (amt, _src) = socket_server.recv_from(&mut buf1).expect("error receiving");
-        println!("Data: {} from: {}", String::from_utf8_lossy(&buf1[..amt]), _src);
-
-        //forward response to client
-        socket_client.send_to(&buf1[..amt],"localhost:8081").expect("error sending");
-        println!("Agent Sent to client");
+        println!("Listening");
+        let (amt, src) = socket.recv_from(&mut buf).expect("error reading");
+        println!("Listened");
+        let sock = socket.try_clone().expect("Failed to clone socket");
+        if current_address == destination_add1
+        {
+            current_address = destination_add2;
+        }
+        else if current_address == destination_add2 {
+            current_address = destination_add3;
+        }
+        else{
+            current_address = destination_add1;
+        }
+        let handle =thread::spawn(move||  {
+            sock.send_to(String::from_utf8_lossy(&buf[..amt]).as_bytes(),current_address).expect("error writing");
+            
+        });
+        println!("sent");
+        handle.join().unwrap();
     }
 }

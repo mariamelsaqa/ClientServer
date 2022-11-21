@@ -2,7 +2,7 @@ use std::net::UdpSocket;
 use std::{thread, time::Duration};
 fn main() 
 {
-    let socket = UdpSocket::bind("localhost:8081").expect("Client couldn't bind to address");
+    let socket = UdpSocket::bind("localhost:8080").expect("Client couldn't bind to address");
 
     // start timer
     let start = std::time::Instant::now();
@@ -17,7 +17,7 @@ fn main()
 
         println!("hi number {} from the spawned thread!", i);
         //send data to socket address localhost:8080
-        sock.send_to(data.as_bytes(), "localhost:8080").expect("Client error sending");
+        sock.send_to(data.as_bytes(), "localhost:8081").expect("Client error sending");
         let mut buf = [0; 17];
 
         let (amt, _src) = sock.recv_from(&mut buf).expect("Client error receiving");
