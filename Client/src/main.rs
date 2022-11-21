@@ -1,7 +1,5 @@
 use std::net::UdpSocket;
-use std::thread;
-use std::time::Duration;
-
+use std::{thread, time::Duration};
 fn main() 
 {
     let socket = UdpSocket::bind("localhost:8081").expect("Client couldn't bind to address");
@@ -9,22 +7,27 @@ fn main()
     // start timer
     let start = std::time::Instant::now();
     
-    let data = "message";
+    let mut  handle = thread::spawn( || {});
+    for i in 1..10 {
+        let data = i.to_string();
 
-    let handle = thread::spawn(move || {
-        for i in 1..10 {
+        let sock = socket.try_clone().expect("Failed to clone socket");
+        handle = thread::spawn(move || {
+        
 
-            println!("hi number {} from the spawned thread!", i);
-            //send data to socket address localhost:8080
-            socket.send_to(data.as_bytes(), "localhost:8082").expect("Client error sending");
+        println!("hi number {} from the spawned thread!", i);
+        //send data to socket address localhost:8080
+        sock.send_to(data.as_bytes(), "localhost:8080").expect("Client error sending");
+        let mut buf = [0; 17];
 
-            let mut buf = [0; 17];
-
-            let (amt, _src) = socket.recv_from(&mut buf).expect("Client error receiving");
-            println!("Client Data {} from {}", String::from_utf8_lossy(&buf[..amt]), _src);
-        }
-    });
+        let (amt, _src) = sock.recv_from(&mut buf).expect("Client error receiving");
+        println!("Client Data {} from {}", String::from_utf8_lossy(&buf[..amt]), _src);
+            
+        });
+        //thread::sleep(Duration::from_millis(4000));
+    }
     handle.join().unwrap();
+    
     
 
 

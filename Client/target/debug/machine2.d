@@ -1,1 +1,1 @@
-F:\AUC\distributed\UDP\ClientServer\client\target\debug\machine2.exe: F:\AUC\distributed\UDP\ClientServer\client\src\main.rs
+F:\AUC\distributed\ClientServer\Client\target\debug\machine2.exe: F:\AUC\distributed\ClientServer\Client\src\main.rs
