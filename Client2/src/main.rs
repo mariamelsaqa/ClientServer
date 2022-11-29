@@ -17,7 +17,7 @@ fn main()
 
         println!("hi number {} from the spawned thread!", i);
         //send data to socket address localhost:8080
-        sock.send_to(data.as_bytes(), "localhost:8083").expect("Client error sending");
+        sock.send_to(data.as_bytes(), "localhost:8084").expect("Client error sending");
         let mut buf = [0; 17];
 
         let (amt, _src) = sock.recv_from(&mut buf).expect("Client error receiving");

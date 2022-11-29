@@ -1,7 +1,7 @@
 Client machine 1:8080
 Client machine 2:8081
-Agent 1: 8082
-Agent 2: 8083
-Server 1: 8084
-Server 2: 8085
-Server 3: 8086
+Agent 1: 8082 and 8083
+Agent 2: 8084 and 8085
+Server 1: 8086
+Server 2: 8087
+Server 3: 8088
