@@ -8,7 +8,7 @@ fn main()
     let start = std::time::Instant::now();
     
     let mut  handle = thread::spawn( || {});
-    for i in 1..10 {
+    for i in 1..100 {
         let data = i.to_string();
 
         let sock = socket.try_clone().expect("Failed to clone socket");

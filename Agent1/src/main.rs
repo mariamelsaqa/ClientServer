@@ -5,7 +5,7 @@ fn main() {
     let mut destination_add2 = "localhost:8085";
     let mut destination_add3 = "localhost:8086";
     let mut current_address = destination_add3;
-    let socket = UdpSocket::bind("localhost:8081").expect("Server Could not bind socket");
+    let socket = UdpSocket::bind("localhost:8082").expect("Server Could not bind socket");
 
      // create a buffer
      let mut buf = [0; 19];
